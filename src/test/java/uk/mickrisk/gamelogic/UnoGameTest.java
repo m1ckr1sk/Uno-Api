@@ -39,5 +39,17 @@ public class UnoGameTest {
 		
 		verify(unoDeck,times(2)).dealCards(2);
 	}
+	
+	@Test
+	public void testAddPlayerToGame() {
+		UnoDeck unoDeck = mock(UnoDeck.class);
+		UnoGame gameUnderTest = new UnoGame(unoDeck);
+		
+		gameUnderTest.addPlayer(new UnoPlayer("MIKE"));
+		gameUnderTest.addPlayer(new UnoPlayer("PAUL"));
+		UnoPlayer player = gameUnderTest.getPlayer("MIKE");
+		
+		assertEquals(player.getName(),"MIKE");
+	}
 
 }
