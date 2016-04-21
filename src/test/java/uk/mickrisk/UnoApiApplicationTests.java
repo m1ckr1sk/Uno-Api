@@ -40,8 +40,15 @@ public class UnoApiApplicationTests {
     public void anonymousUserJoinedGame() throws Exception {
 		ResultActions result = mockMvc.perform(post("/join"))
         		.andExpect(content().contentType(contentType))
-        		.andExpect(jsonPath("$", hasSize(1)))
-        		.andExpect(jsonPath("$.[0].message", is("Joined the game:anonymous")))
+        		.andExpect(jsonPath("$.message", is("Joined the game:anonymous")))
+                .andExpect(status().isOk());
+    }
+	
+	@Test
+    public void namedUserJoinedGame() throws Exception {
+		ResultActions result = mockMvc.perform(post("/join?name=mike"))
+        		.andExpect(content().contentType(contentType))
+        		.andExpect(jsonPath("$.message", is("Joined the game:mike")))
                 .andExpect(status().isOk());
     }
 

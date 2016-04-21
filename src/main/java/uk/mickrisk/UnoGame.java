@@ -60,23 +60,23 @@ public class UnoGame {
 				player.addCardToHand(dealtCard);
 			}
 		}
-
 	}
-	
-	public UnoPlayer getPlayer(String playerName)
-	{
+
+	public UnoPlayer getPlayer(String playerName) {
 		for (UnoPlayer player : hands) {
-		    if (player.getName().equals(playerName)) {
-		        return player;
-		    }
+			if (player.getName().equals(playerName)) {
+				return player;
+			}
 		}
 		return null;
 	}
 
-	public void addPlayer(UnoPlayer player) {
+	public String addPlayer(UnoPlayer player) {
 		if (hands.size() < MAX_PLAYERS) {
 			hands.add(player);
+			return "Joined the game:" + player.getName();
 		}
+		return "New player not added, the game is full";
 	}
 
 	public boolean canAddPlayer() {
