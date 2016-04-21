@@ -1,4 +1,4 @@
-package uk.mickrisk;
+package uk.mickrisk.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +12,26 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import uk.mickrisk.gamelogic.UnoDeck;
+import uk.mickrisk.gamelogic.UnoGame;
+import uk.mickrisk.gamelogic.UnoMessage;
+import uk.mickrisk.gamelogic.UnoPlayer;
+
 @RestController
 public class UnoController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	UnoGame unoGame = new UnoGame();
-	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
-	@RequestMapping(value = "/cards", method = RequestMethod.GET)
+	UnoGame unoGame;
+	ObjectWriter ow;
+	
+	public UnoController()
+	{
+		UnoDeck unoDeck = new UnoDeck();
+		unoGame = new UnoGame(unoDeck);
+		ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+	}
+	
+	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/cards", method = RequestMethod.GET)
 	public String cards(@RequestParam(value = "name", required = true) String name) {
 		log.info("Getting the cards");
 		UnoPlayer player = unoGame.getPlayer(name);
@@ -33,10 +45,10 @@ public class UnoController {
 		return messageToJson(unoGame.addPlayer(newPlayer));
 	}
 
-	@RequestMapping(value = "/deal", method = RequestMethod.GET)
+	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/deal", method = RequestMethod.GET)
 	public String deal() {
 		log.info("Dealing the cards");
-		unoGame.deal();
+		unoGame.deal(5);
 		return messageToJson("Dealing the cards");
 	}
 	

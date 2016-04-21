@@ -1,4 +1,4 @@
-package uk.mickrisk;
+package uk.mickrisk.gamelogic;
 
 public class UnoMessage {
 
